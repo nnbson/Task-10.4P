@@ -1,0 +1,30 @@
+<%- include('header'); -%>
+
+<header>
+    <div class="container-fluid bg-info-subtle mb-4">
+        <div class="col-sm-8 mx-auto text-center py-2">
+            <h1 class="display-4">TUTORIAL</h1>
+        </div>
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        <h3>
+            <%= title %>
+        </h3>
+        <p>
+            Thank you <strong><%= name %></strong> for your input
+        </p>
+        <p>
+            Your email is <strong><%= email %></strong>
+        </p>
+        <p>
+            Your phone is <strong><%= phone %></strong>
+        </p>
+        <a href="/">Click the link to go back to the main page</a>
+    </div>
+</main>
+<script src="/js/modeChosen.js"></script>
+
+<%- include('footer'); -%>

@@ -1,0 +1,322 @@
+<%- include('header'); -%>
+
+    <header>
+        <div class="container-fluid bg-info-subtle mb-4">
+            <div class="col-sm-8 mx-auto text-center py-2">
+                <h1 class="display-4">TUTORIAL</h1>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <h3>First Section</h3>
+
+            <p>
+                The first section will serve as a hands-on introduction, guiding users through the process of connecting
+                a website to a local MySQL database system. This tutorial will demonstrate how to capture user input,
+                validate the information for accuracy, and insert it into a pre-existing table within the
+                MySQL database.
+            </p>
+            <p>
+                In this tutorial, MySQL database includes a table with four attributes: ID (unique identifier), name,
+                email address, and phone number. We collect the user's name, email address, and phone number through an
+                HTML form. Using JavaScript, we'll validate the inputs to ensure that all fields are filled out
+                correctly: names should contain only alphabetic characters, email addresses must include an
+                "@" symbol, and phone numbers must be exactly 10 digits long without any alphabetic characters. Once
+                validated, we will use Node.js to insert this data into the MySQL table.
+            </p>
+            <div id="formContainer">
+                <form onsubmit="validation()" action="/input" method="post" id="postInputForm">
+                    <div class="mb-3 row">
+                        <label for="name" class="col-sm-2 col-form-label">Name</label>
+                        <div class="col-auto">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Your name">
+                        </div>
+                        <div class="col-auto">
+                            <span id="nameError"></span>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="email" class="col-sm-2 col-form-label">Email</label>
+                        <div class="col-auto">
+                            <input type="text" class="form-control" id="email" name="email" placeholder="Enter email">
+                        </div>
+                        <div class="col-auto">
+                            <span id="emailError"></span>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="phone" class="col-sm-2 col-form-label">Phone</label>
+                        <div class="col-auto">
+                            <input type="text" class="form-control" id="phone" name="phone" placeholder="Phone Number">
+                        </div>
+                        <div class="col-auto">
+                            <span id="phoneError"></span>
+                        </div>
+                    </div>
+
+                    <input class="btn btn-primary my-3" type="submit" value="Submit Query">
+                </form>
+            </div>
+            <p>Here, we leverage HTML and Bootstrap to design an intuitive form where the user will enter name, phone
+                number, and email address.</p>
+            <p class="d-inline-flex gap-1">
+                <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHTML"
+                    aria-expanded="false" aria-controls="collapseHTML">
+                    Click to see HTML code to create the form
+                </button>
+            </p>
+            <div class="collapse" id="collapseHTML">
+                <div class="card card-body">
+                    <pre>
+&lt;div id="formContainer"&gt;
+  &lt;form onsubmit="validation()" action="/input" method="post" id="postInputForm"&gt;
+    &lt;div class="mb-3 row"&gt;
+      //This part is to create an Input form for Name
+      &lt;label for="name" class="col-sm-2 col-form-label"&gt;Name&lt;/label&gt;
+      &lt;div class="col-auto"&gt;
+        &lt;input type="text" class="form-control" id="name" placeholder="Your name"&gt;
+      &lt;/div&gt;
+      &lt;div class="col-auto"&gt;
+        //This part will store invalid or valid message for the input
+        &lt;span id="nameError"&gt;&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="mb-3 row"&gt;
+      //This part is to create an Input form for Email
+      &lt;label for="email" class="col-sm-2 col-form-label"&gt;Email&lt;/label&gt;
+      &lt;div class="col-auto"&gt;
+        &lt;input type="email" class="form-control" id="email" placeholder="Enter email"&gt;
+      &lt;/div&gt;
+      &lt;div class="col-auto"&gt;
+        //This part will store invalid or valid message for the input
+        &lt;span id="emailError"&gt;&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="mb-3 row"&gt;
+      //This part is to create an Input form for Phone
+      &lt;label for="phone" class="col-sm-2 col-form-label"&gt;Phone&lt;/label&gt;
+      &lt;div class="col-auto"&gt;
+        &lt;input type="text" class="form-control" id="phone" placeholder="Phone Number"&gt;
+      &lt;/div&gt;
+      &lt;div class="col-auto"&gt;
+        //This part will store invalid or valid message for the input
+        &lt;span id="phoneError"&gt;&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;input class="btn btn-primary my-3" type="submit" value="Submit Query"&gt;
+  &lt;/form&gt;
+&lt;/div&gt;
+                    </pre>
+                </div>
+            </div>
+            <p>Once the user entered input details, JavaScript will give them a quick check to ensure they're formatted
+                correctly. This helps prevent any typos or mistakes from slipping through.</p>
+            <p class="d-inline-flex gap-1">
+                <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseJS"
+                    aria-expanded="false" aria-controls="collapseJS">
+                    Click to see JS code to create validate data input
+                </button>
+            </p>
+            <div class="collapse" id="collapseJS">
+                <div class="card card-body">
+                    <pre>
+function validation() {
+    let checkName = 0;
+    let checkEmail = 0;
+    let checkPhone = 0;
+
+    //This part will check if the Name Form is filled and contains only alphabetic characters
+    if (document.getElementById(&quot;name&quot;).value.length == 0) {
+        document.getElementById(&quot;nameError&quot;).innerHTML = &quot;&lt;em&gt; You did not enter your name &lt;/em&gt;&quot;;
+        document.getElementById(&quot;nameError&quot;).classList.add(&quot;text-danger&quot;);
+        checkName = 0;
+    } else {
+        document.getElementById(&quot;nameError&quot;).innerHTML = &quot;Valid&quot;;
+        document.getElementById(&quot;nameError&quot;).classList.remove(&quot;text-danger&quot;);
+        document.getElementById(&quot;nameError&quot;).classList.add(&quot;text-success&quot;);
+        checkName = 1;
+    }
+    //This part will check if the Email Form is filled and includes an "@" symbol
+    if (document.getElementById(&quot;email&quot;).value.length == 0) {
+        document.getElementById(&quot;emailError&quot;).innerHTML = &quot;&lt;em&gt; You did not enter your email address &lt;/em&gt;&quot;;
+        document.getElementById(&quot;emailError&quot;).classList.add(&quot;text-danger&quot;);
+        checkEmail = 0;
+    } else {
+        let emailPattern = /@/;
+        if (emailPattern.test(document.getElementById(&quot;email&quot;).value)) {
+            document.getElementById(&quot;emailError&quot;).innerHTML = &quot;Valid&quot;;
+            document.getElementById(&quot;emailError&quot;).classList.remove(&quot;text-danger&quot;);
+            document.getElementById(&quot;emailError&quot;).classList.add(&quot;text-success&quot;);
+            checkEmail = 1;
+        } else {
+            document.getElementById(&quot;emailError&quot;).innerHTML = &quot;&lt;em&gt; Must be a valid email with &#39;@&#39; sign &lt;/em&gt;&quot;;
+            document.getElementById(&quot;emailError&quot;).classList.add(&quot;text-danger&quot;);
+            checkEmail = 0;
+        }
+    }
+    //This part will check if the Phone Form is filled and contains exactly 10 digits long without any alphabetic characters
+    let phoneNum = document.getElementById(&quot;phone&quot;).value;
+    if (phoneNum.length == 0) {
+        document.getElementById(&quot;phoneError&quot;).innerHTML = &quot;&lt;em&gt; You did not enter your phone number &lt;/em&gt;&quot;;
+        document.getElementById(&quot;phoneError&quot;).classList.add(&quot;text-danger&quot;);
+        checkPhone = 0;
+    } else {
+        if (phoneNum.length != 10) {
+            document.getElementById(&quot;phoneError&quot;).innerHTML = &quot;&lt;em&gt; Must be exactly 10 digits &lt;/em&gt;&quot;;
+            document.getElementById(&quot;phoneError&quot;).classList.add(&quot;text-danger&quot;);
+            checkPhone = 0;
+        } else {
+            let errorCheck = 0;
+            for (let i = 0; i &lt; phoneNum.length; i++) {
+                if (!/^[0-9]+$/.test(phoneNum[i])) {
+                    document.getElementById(&quot;phoneError&quot;).innerHTML = `&lt;em&gt; Contain character &#39;${phoneNum[i]}&#39;. Numbers only!&lt;/em&gt;`;
+                    document.getElementById(&quot;phoneError&quot;).classList.add(&quot;text-danger&quot;);
+                    checkPhone = 0;
+                    errorCheck += 1;
+                }
+            }
+            if (errorCheck == 0) {
+                document.getElementById(&quot;phoneError&quot;).innerHTML = &quot;Valid&quot;;
+                document.getElementById(&quot;phoneError&quot;).classList.remove(&quot;text-danger&quot;);
+                document.getElementById(&quot;phoneError&quot;).classList.add(&quot;text-success&quot;);
+                checkPhone = 1;
+            }
+        }
+    }
+
+    if (checkName + checkEmail + checkPhone == 3) {
+        return true;
+    } else {
+        event.preventDefault();
+        return false;
+    }
+}
+                    </pre>
+                </div>
+            </div>
+            <p>Once everything looks good, validated information will be inserted into the table in MySQL database via
+                NodeJS</p>
+            <p class="d-inline-flex gap-1">
+                <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNodeJs"
+                    aria-expanded="false" aria-controls="collapseNodeJs">
+                    Click to see how to connect the website to local MySQL database to insert the inputted data
+                </button>
+            </p>
+            <div class="collapse" id="collapseNodeJs">
+                <div class="card card-body">
+                    <pre>
+//This part is to install mysql2 package
+const mysql = require('mysql2');
+//This part is to connect the website to the local MySQL database
+const connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'sit774'
+});
+//This part is to get data from User's input, insert them into the database and send out a message to the User of all input data
+const sql = `INSERT INTO User (name, email, phone) VALUES (?, ?, ?)`;
+app.post('/input', (req, res, next) =&gt; {
+    let name = req.body.name;
+    let email = req.body.email;
+    let phone = req.body.phone;
+
+    connection.query(sql, [name, email, phone]);
+    res.render('thankyou', {
+        title: 'Data Input Review',
+        name: name,
+        email: email,
+        phone: phone
+    });
+});
+                    </pre>
+                </div>
+            </div>
+            <div class="row g-1">
+                <div class="col-sm-6 col-12">
+                    <div class="card">
+                        <img src="/pic/Input.png" alt="Input Data" class="card-img-top img-fluid">
+                        <div class="card-body">
+                            <p class="card-text">Input Data</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-12">
+                    <div class="card">
+                        <img src="/pic/Result.png" alt="Result Data" class="card-img-top img-fluid">
+                        <div class="card-body">
+                            <p class="card-text">Result in Local MySQL Database</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4">
+                <h3>Second Section</h3>
+                <p>
+                    The second section will serve as a hands-on introduction to how to create an option for the user to
+                    switch between light mode and dark mode of the website. This user theme preference will be stored and 
+                    applied consistently across multiple pages.
+                </p>
+                <button class="btn btn-warning btn-toggle" type="button">Toggle Dark-Mode</button>
+                <p>Here, we leverage HTML and Bootstrap to design a button to toggle between light and dark mode.</p>
+                <p class="d-inline-flex gap-1">
+                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHTMLDM"
+                        aria-expanded="false" aria-controls="collapseHTMLDM">
+                        Click to see HTML code to create toggle button
+                    </button>
+                </p>
+                <div class="collapse" id="collapseHTMLDM">
+                    <div class="card card-body">
+                        <pre>
+&lt;button class=&quot;btn btn-warning btn-toggle&quot; type=&quot;button&quot;&gt;Toggle Dark-Mode&lt;/button&gt;
+                        </pre>
+                    </div>
+                </div>
+                <p>JavaScript is used here to store the user theme preference and apply across multiple pages</p>
+                <p class="d-inline-flex gap-1">
+                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseJSDM"
+                        aria-expanded="false" aria-controls="collapseJSDM">
+                        Click to see JS code
+                    </button>
+                </p>
+                <div class="collapse" id="collapseJSDM">
+                    <div class="card card-body">
+                        <pre>
+document.addEventListener(&quot;DOMContentLoaded&quot;, function() {
+    const btn = document.querySelector(&quot;.btn-toggle&quot;);
+
+    // This part is to check the current theme on page load and apply it
+    const currentTheme = localStorage.getItem(&quot;theme&quot;);
+    if (currentTheme === &quot;dark&quot;) {
+        document.body.classList.add(&quot;dark-theme&quot;);
+    }
+
+    // This part is to add event listener to the button and toggle the mode
+    if (btn) {
+        btn.addEventListener(&quot;click&quot;, function() {
+            document.body.classList.toggle(&quot;dark-theme&quot;);
+
+            // This part is to save the theme preference in localStorage
+            let theme = &quot;light&quot;;
+            if (document.body.classList.contains(&quot;dark-theme&quot;)) {
+                theme = &quot;dark&quot;;
+            }
+            localStorage.setItem(&quot;theme&quot;, theme);
+        });
+    }
+});
+                        </pre>
+                    </div>
+                </div>
+                <p>Remember to include the script &lt;script src=&quot;/js/modeChosen.js&quot;&gt;&lt;/script&gt; 
+                    in all the pagetemplates where you want the theme to be applied </p>
+            </div>
+        </div>
+    </main>
+
+    <script src="/js/validation.js"></script>
+    <script src="/js/modeChosen.js"></script>
+
+    <%- include('footer'); -%>
